@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="io.github.Nateacoffey.Application.AccountPageController">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="640.0">
+         <children>
+            <Button layoutX="22.0" layoutY="29.0" mnemonicParsing="false" text="Withdraw" />
+            <Button layoutX="22.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Deposit" />
+            <Button layoutX="22.0" layoutY="101.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Transfer" />
+            <Button layoutX="22.0" layoutY="135.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Add Account" />
+            <Button layoutX="22.0" layoutY="168.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete Account" />
+            
+            <Text fx:id="greeting" layoutX="507.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" wrappingWidth="120.13671875" />
+            <Button layoutX="567.0" layoutY="39.0" mnemonicParsing="false" text="Log Out" />
+            <Button layoutX="507.0" layoutY="39.0" mnemonicParsing="false" onAction="#showProfile" text="Profile" />
+            
+            <TableView layoutX="152.0" layoutY="100.0" prefHeight="200.0" prefWidth="337.0">
+              <columns>
+                <TableColumn prefWidth="198.0" text="Account" />
+                <TableColumn prefWidth="138.0" text="Balance" />
+              </columns>
+            </TableView>
+            <Pane fx:id="profile" layoutX="217.0" layoutY="37.0" prefHeight="226.0" prefWidth="235.0" visible="false">
+               <children>
+                  <Text layoutX="21.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+                  <Text layoutX="21.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address:" />
+                  <Text layoutX="21.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:" />
+                  <Text layoutX="23.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State:" />
+                  <Text layoutX="26.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip Code:" wrappingWidth="59.0" />
+                  <Text layoutX="25.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number:" />
+                  
+                  <Text fx:id="userName" layoutX="146.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                  <Text fx:id="userAddress" layoutX="146.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                  <Text fx:id="userCity" layoutX="146.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                  <Text fx:id="userState" layoutX="146.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                  <Text fx:id="userZipCode" layoutX="146.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                  <Text fx:id="userPhoneNumber" layoutX="147.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                  
+                  <Button onAction="#hideProfile" layoutX="165.0" layoutY="187.0" mnemonicParsing="false" text="Close" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
