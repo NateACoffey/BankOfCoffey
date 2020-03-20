@@ -24,15 +24,16 @@ public class UserInformation {
 	
 	
 	
-	public UserInformation(String firstName,
-							String lastName,
-							 String address,
-							  String city,
-							   String state,
-							    int zipCode,
-							     String phoneNumber,
-							      String accountSerial,
-							      int amountOfAccount
+	public UserInformation(String username,
+							String firstName,
+							 String lastName,
+							  String address,
+							   String city,
+								String state,
+								 int zipCode,
+								  String phoneNumber,
+								   String accountSerial,
+								    int amountOfAccount
 							) {
 		
 		this.firstName = firstName;

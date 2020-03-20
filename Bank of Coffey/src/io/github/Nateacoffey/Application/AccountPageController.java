@@ -3,15 +3,20 @@ package io.github.Nateacoffey.Application;
 
 import javafx.event.ActionEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-//import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 public class AccountPageController implements Initializable {
@@ -34,7 +39,8 @@ public class AccountPageController implements Initializable {
 		
 		rs.next();
 		
-		user = new UserInformation(rs.getString("FIRST_NAME"),
+		user = new UserInformation(rs.getString("USERNAME"),
+								   rs.getString("FIRST_NAME"),
 									rs.getString("LAST_NAME"),
 									 rs.getString("ADDRESS"),
 									  rs.getString("CITY"),
@@ -53,9 +59,26 @@ public class AccountPageController implements Initializable {
 		userState.setText(user.getState());
 		userZipCode.setText(Integer.toString(user.getZipCode()));
 		userPhoneNumber.setText(user.getPhoneNumber());
+		
 	}
 	
-	//TODO switch scene back to log in and set user to null
+	public void toLogInScreen(ActionEvent e) throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("LogInScreen.fxml"));
+		Parent root = loader.load();
+		
+		Scene accountPageScene = new Scene(root);
+		
+		Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
+		
+		user = null;
+		
+		window.setScene(accountPageScene);
+		window.show();
+		
+		
+	}
 	
 	
 	public void showProfile(ActionEvent e) {

@@ -19,7 +19,7 @@
             <Button layoutX="22.0" layoutY="168.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete Account" />
             
             <Text fx:id="greeting" layoutX="507.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" wrappingWidth="120.13671875" />
-            <Button layoutX="567.0" layoutY="39.0" mnemonicParsing="false" text="Log Out" />
+            <Button onAction="#toLogInScreen" layoutX="567.0" layoutY="39.0" mnemonicParsing="false" text="Log Out" />
             <Button layoutX="507.0" layoutY="39.0" mnemonicParsing="false" onAction="#showProfile" text="Profile" />
             
             <TableView layoutX="152.0" layoutY="100.0" prefHeight="200.0" prefWidth="337.0">

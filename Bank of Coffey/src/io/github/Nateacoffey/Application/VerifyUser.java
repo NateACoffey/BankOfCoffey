@@ -12,6 +12,7 @@ public class VerifyUser {
 			
 			ResultSet rs = st.executeQuery(
 					"SELECT ADDRESS,"
+					+ "USERNAME,"
 					+ "CITY,"
 					+ "STATE,"
 					+ "ZIP_CODE,"

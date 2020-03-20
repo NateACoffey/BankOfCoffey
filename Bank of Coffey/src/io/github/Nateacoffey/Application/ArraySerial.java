@@ -2,17 +2,14 @@ package io.github.Nateacoffey.Application;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.nio.charset.StandardCharsets;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 
 public class ArraySerial {
 	
@@ -22,11 +19,11 @@ public class ArraySerial {
 		try {
 			//converts Array to byte[] stream
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream out = new ObjectOutputStream(bos);
+			ObjectOutput out = new ObjectOutputStream(bos);
 			out.writeObject(arrayOfAccounts);
-			out.flush();
+			byte[] byteArray = bos.toByteArray();
 			
-			String test = bos.toString();
+			String test = Base64.getEncoder().encodeToString(byteArray);
 			
 			//updates the array for user
 			st.executeUpdate(
@@ -54,14 +51,14 @@ public class ArraySerial {
 		
 		
 		try {
+			//byte[] b = serial.getBytes(StandardCharsets.UTF_8);
+			byte[] byteArray = Base64.getDecoder().decode(serial);
 			
-			byte[] b = serial.getBytes(StandardCharsets.UTF_8);
 			
-			ByteArrayInputStream bis = new ByteArrayInputStream(b);
-			ObjectInput in = new ObjectInputStream(bis);
+			ByteArrayInputStream bis = new ByteArrayInputStream(byteArray);
+			ObjectInput in = new ObjectInputStream(bis); //error
+			
 			arrayOfAccounts = (UserAccountInformation[]) in.readObject();
-			
-			
 			
 			
 			return arrayOfAccounts;
