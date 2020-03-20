@@ -28,6 +28,7 @@ public class LogInController implements Initializable {
 	
 	Statement st;
 	ResultSet rs;
+	Connection dbConnection;
 	
 	private String usernameLocked;	//locks the username to prevent alteration
 	
@@ -59,7 +60,7 @@ public class LogInController implements Initializable {
 		Hash hash = new Hash();
 		VerifyUser verify = new VerifyUser();
 		
-		usernameLocked = username.getText();
+		usernameLocked = username.getText().toLowerCase();
 		
 		if(!usernameLocked.isEmpty())
 			rs = verify.TestUsernamePassword( st, usernameLocked, hash.hashString(password.getText()) );
@@ -78,8 +79,6 @@ public class LogInController implements Initializable {
 			
 			AccountPageController accountController = loader.getController();
 			accountController.getResultSet(rs);
-			accountController.setStatement(st);
-			accountController.setUsername(usernameLocked);;
 			
 			
 			Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -96,42 +95,44 @@ public class LogInController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		try {
-			/* 
-			 * https://stackoverflow.com/questions/21955256/manipulating-an-access-database-from-java-without-odbc
-			 * 
-			 * http://ucanaccess.sourceforge.net/site.html
-			 * 
-			 * 
-			 * add  5 jars to library (all inside UCanAccess-5.0.0-bin.zip)
-			 * 
-			 * ucanaccess-5.0.0.jar
-			 * commons-langs3-3.8.1.jar
-			 * commons.logging-1.2.jar
-			 * hsqldb.jar
-			 * jackcess-3.0.1.jar
-			 * 
-			 * 
-			 */
-			
-			
-		//connect to path of database
-		Connection dbConnection = DriverManager.getConnection(
-				"jdbc:ucanaccess://C:/Users/Nathan/eclipse-workspace/Bank of Coffey/BankOfCoffeyDatabase.accdb");
-		st = dbConnection.createStatement();
-			
-			
-		}
-		catch(SQLException e) {
-			System.out.println("ERROR:\n-" + e.getMessage());
-			e.printStackTrace();
-		}
-		catch(Exception e) {
-			System.out.println("ERROR:\n-" + e.getMessage());
-			e.printStackTrace();
-		}
+		if(dbConnection.equals(null)) {
 		
+			try {
+				/* 
+				 * https://stackoverflow.com/questions/21955256/manipulating-an-access-database-from-java-without-odbc
+				 * 
+				 * http://ucanaccess.sourceforge.net/site.html
+				 * 
+				 * 
+				 * add  5 jars to library (all inside UCanAccess-5.0.0-bin.zip)
+				 * 
+				 * ucanaccess-5.0.0.jar
+				 * commons-langs3-3.8.1.jar
+				 * commons.logging-1.2.jar
+				 * hsqldb.jar
+				 * jackcess-3.0.1.jar
+				 * 
+				 * 
+				 */
+				
+				
+			//connect to path of database
+			dbConnection = DriverManager.getConnection(
+					"jdbc:ucanaccess://C:/Users/Nathan/git/BankOfCoffey/Bank of Coffey/BankOfCoffeyDatabase.accdb");
+			st = dbConnection.createStatement();
+				
+				
+			}
+			catch(SQLException e) {
+				System.out.println("ERROR:\n-" + e.getMessage());
+				e.printStackTrace();
+			}
+			catch(Exception e) {
+				System.out.println("ERROR:\n-" + e.getMessage());
+				e.printStackTrace();
+			}
 		
+		}
 		
 	}
 	

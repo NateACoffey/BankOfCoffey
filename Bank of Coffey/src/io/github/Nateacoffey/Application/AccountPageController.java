@@ -16,8 +16,6 @@ import javafx.fxml.Initializable;
 
 public class AccountPageController implements Initializable {
 	
-	Statement st;
-	String username;
 	UserInformation user;
 	
 	public TextField test;
@@ -31,14 +29,6 @@ public class AccountPageController implements Initializable {
 	public Text userZipCode;
 	public Text userPhoneNumber;
 	
-	
-	public void setStatement(Statement st) {
-		this.st = st;
-	}
-	
-	public void setUsername(String username) {
-		this.username = username;
-	}
 	
 	public void getResultSet(ResultSet rs) throws SQLException {
 		
@@ -63,10 +53,6 @@ public class AccountPageController implements Initializable {
 		userState.setText(user.getState());
 		userZipCode.setText(Integer.toString(user.getZipCode()));
 		userPhoneNumber.setText(user.getPhoneNumber());
-		
-		ArraySerial serial = new ArraySerial();
-		serial.serial(UserInformation.ArrayOfAccounts, username, st);
-		
 	}
 	
 	//TODO switch scene back to log in and set user to null

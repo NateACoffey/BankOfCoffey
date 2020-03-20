@@ -43,10 +43,8 @@ public class UserInformation {
 		this.zipCode = zipCode;
 		this.phoneNumber = phoneNumber.replaceAll("[^\\d]", "");
 		
-		//TODO add deserialization for accountSerial
-		
-		//ArraySerial deserialize = new ArraySerial();
-		//deserialize.deserial(accountSerial);
+		ArraySerial serial = new ArraySerial();
+		UserInformation.ArrayOfAccounts = serial.deserial(accountSerial);
 	}
 	
 	
