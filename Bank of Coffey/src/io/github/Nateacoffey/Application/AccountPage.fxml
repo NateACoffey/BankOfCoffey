@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,7 +21,7 @@
             <Button layoutX="22.0" layoutY="168.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete Account" />
             
             <Text fx:id="greeting" layoutX="507.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" wrappingWidth="120.13671875" />
-            <Button onAction="#toLogInScreen" layoutX="567.0" layoutY="39.0" mnemonicParsing="false" text="Log Out" />
+            <Button layoutX="567.0" layoutY="39.0" mnemonicParsing="false" onAction="#toLogInScreen" text="Log Out" />
             <Button layoutX="507.0" layoutY="39.0" mnemonicParsing="false" onAction="#showProfile" text="Profile" />
             
             <TableView layoutX="152.0" layoutY="100.0" prefHeight="200.0" prefWidth="337.0">
@@ -28,25 +30,32 @@
                 <TableColumn prefWidth="138.0" text="Balance" />
               </columns>
             </TableView>
-            <Pane fx:id="profile" layoutX="217.0" layoutY="37.0" prefHeight="226.0" prefWidth="235.0" visible="false">
-               <children>
-                  <Text layoutX="21.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
-                  <Text layoutX="21.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address:" />
-                  <Text layoutX="21.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:" />
-                  <Text layoutX="23.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State:" />
-                  <Text layoutX="26.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip Code:" wrappingWidth="59.0" />
-                  <Text layoutX="25.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number:" />
-                  
-                  <Text fx:id="userName" layoutX="146.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
-                  <Text fx:id="userAddress" layoutX="146.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
-                  <Text fx:id="userCity" layoutX="146.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
-                  <Text fx:id="userState" layoutX="146.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
-                  <Text fx:id="userZipCode" layoutX="146.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
-                  <Text fx:id="userPhoneNumber" layoutX="147.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
-                  
-                  <Button onAction="#hideProfile" layoutX="165.0" layoutY="187.0" mnemonicParsing="false" text="Close" />
-               </children>
-            </Pane>
+            <DialogPane fx:id="profile" layoutX="158.0" layoutY="69.0" prefHeight="248.0" prefWidth="325.0" visible="false">
+               <header>
+                  <Pane prefHeight="226.0" prefWidth="235.0">
+                     <children>
+                        <Text layoutX="21.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+                        <Text layoutX="21.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address:" />
+                        <Text layoutX="21.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:" />
+                        <Text layoutX="23.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State:" />
+                        <Text layoutX="26.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip Code:" wrappingWidth="59.0" />
+                        <Text layoutX="24.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number:" />
+                        
+                              <Text fx:id="userName" layoutX="146.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                        <Text fx:id="userAddress" layoutX="146.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                        <Text fx:id="userCity" layoutX="146.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                        <Text fx:id="userState" layoutX="146.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                        <Text fx:id="userZipCode" layoutX="146.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" />
+                        <Text fx:id="userPhoneNumber" layoutX="150.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" />
+                        
+                              <Button layoutX="239.0" layoutY="185.0" mnemonicParsing="false" onAction="#hideProfile" text="Close" />
+                     </children>
+                  </Pane>
+               </header>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </DialogPane>
          </children>
       </AnchorPane>
    </children>

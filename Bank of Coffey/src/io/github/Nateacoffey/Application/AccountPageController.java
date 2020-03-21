@@ -13,9 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.control.DialogPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
@@ -26,7 +26,7 @@ public class AccountPageController implements Initializable {
 	public TextField test;
 	public Text greeting;
 	
-	public Pane profile;
+	public DialogPane profile;
 	public Text userName;
 	public Text userAddress;
 	public Text userCity;
@@ -35,7 +35,8 @@ public class AccountPageController implements Initializable {
 	public Text userPhoneNumber;
 	
 	
-	public void getResultSet(ResultSet rs) throws SQLException {
+	//sets and displays the proper information
+	public void setUserInfo(ResultSet rs) throws SQLException {
 		
 		rs.next();
 		
@@ -72,7 +73,7 @@ public class AccountPageController implements Initializable {
 		
 		Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
 		
-		user = null;
+		user = null;//empties user data before switching scenes
 		
 		window.setScene(accountPageScene);
 		window.show();
