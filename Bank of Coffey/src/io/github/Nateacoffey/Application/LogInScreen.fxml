@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
@@ -11,13 +14,54 @@
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="640.0">
          <children>
-            <TextField fx:id="username" layoutX="246.0" layoutY="164.0" />
-            <PasswordField fx:id="password" layoutX="246.0" layoutY="217.0" onAction="#userSearch" />
+            <Pane fx:id="logInFields" layoutX="164.0" layoutY="56.0" prefHeight="304.0" prefWidth="313.0">
+               <children>
+               	<Text fx:id="userNotFound" fill="RED" layoutX="71.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username/Password not found" visible="false" wrappingWidth="171.0" />
+               	
+                  <Text layoutX="82.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter username:" wrappingWidth="149.0" />
+                  <TextField fx:id="username" layoutX="82.0" layoutY="92.0" />
+                  <Text layoutX="82.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter password:" wrappingWidth="149.0" />
+                  <PasswordField fx:id="password" layoutX="82.0" layoutY="134.0" onAction="#userSearch" />
+                  
+                  <Button layoutX="82.0" layoutY="159.0" mnemonicParsing="false" onAction="#userSearch" prefHeight="25.0" prefWidth="149.0" text="Log In" />
+                  
+                  <Button layoutX="82.0" layoutY="259.0" mnemonicParsing="false" onAction="#showNewAccount" prefHeight="25.0" prefWidth="149.0" text="Create a new account" />
+               </children>
+            </Pane>
             
-            <Button layoutX="289.0" layoutY="349.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Create a new account" />
-            <Text layoutX="246.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter username:" wrappingWidth="149.0" />
-            <Text layoutX="246.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter password:" wrappingWidth="149.0" />
-            <Text fill="RED" fx:id="userNotFound" layoutX="235.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username/Password not found" visible="false" wrappingWidth="171.0" />
+            <DialogPane fx:id="newAccount" layoutX="132.0" layoutY="56.0" prefHeight="304.0" prefWidth="360.0" visible="false">
+               <header>
+                  <Pane prefHeight="300.0" prefWidth="360.0">
+                     <children>
+                        <Text layoutX="40.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
+                        <Text layoutX="41.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
+                        <Text layoutX="18.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm password:" />
+                        
+                        <TextField fx:id="newUsername" layoutX="125.0" layoutY="10.0" prefHeight="25.0" prefWidth="149.0" />
+                        <PasswordField fx:id="newPassword" layoutX="125.0" layoutY="35.0" prefHeight="25.0" prefWidth="149.0" />
+                        <PasswordField fx:id="newPasswordConfirm" layoutX="125.0" layoutY="60.0" prefHeight="25.0" prefWidth="149.0" />
+                        
+                        <TextField fx:id="newFirstName" layoutX="31.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" promptText="First Name" />
+                        <TextField fx:id="newLastName" layoutX="180.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" promptText="Last Name" />
+                        <TextField fx:id="newAddress" layoutX="31.0" layoutY="138.0" prefHeight="25.0" prefWidth="298.0" promptText="Address" />
+                        <TextField fx:id="newCity" layoutX="31.0" layoutY="163.0" prefHeight="25.0" prefWidth="149.0" promptText="City" />
+                        <ChoiceBox fx:id="newState" layoutX="180.0" layoutY="163.0" prefHeight="25.0" prefWidth="58.0" />
+                        <TextField fx:id="newZipCode" layoutX="238.0" layoutY="163.0" prefHeight="25.0" prefWidth="91.0" promptText="Zip Code" />
+                        <TextField fx:id="newPhoneNumber" layoutX="31.0" layoutY="188.0" promptText="Phone Number" />
+                        
+                        <Button layoutX="46.0" layoutY="223.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create Account" />
+                        <Button layoutX="268.0" layoutY="223.0" mnemonicParsing="false" onAction="#closeNewAccount" text="Cancel" />
+                        
+                        <Text fx:id="duplicateUsername" fill="RED" layoutX="136.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User already exists." visible="false" />
+                        <Text fx:id="emptyField" fill="RED" layoutX="119.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please fill out all boxes." visible="false" />
+                        <Text fx:id="shortPassword" fill="RED" layoutX="74.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password must be 8 or more characters." visible="false" />
+                        <Text fx:id="passwordMatch" fill="RED" layoutX="274.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password must match" visible="false" />
+                        <Text fx:id="zipCodeNumber" fill="RED" layoutX="200.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip Code must be a number" visible="false" />
+                        <Text fx:id="zipCodeDigits" fill="RED" layoutX="184.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip must be between 1 and 99999" visible="false" />
+                     </children>
+                  </Pane>
+               </header>
+            </DialogPane>
             
          </children>
       </AnchorPane>
