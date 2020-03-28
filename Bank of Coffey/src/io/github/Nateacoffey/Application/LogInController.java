@@ -249,6 +249,8 @@ public class LogInController implements Initializable {
 	
 	//pressing <enter> on password field
 	public void userSearch(ActionEvent e) throws SQLException, IOException {
+		userNotFound.setVisible(false);
+		
 		
 		VerifyUser verify = new VerifyUser();
 		
@@ -263,21 +265,50 @@ public class LogInController implements Initializable {
             
 			updateLoginDate(usernameLocked, hash.hashString(password.getText()));
 			
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("AccountPage.fxml"));
-			Parent root = loader.load();
-			
-			Scene accountPageScene = new Scene(root);
-			
-			AccountPageController accountController = loader.getController();
-			accountController.setUserInfo(rs);
-			
-			
-			Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
-			
-			window.setScene(accountPageScene);
-			window.show();
-			
+			//switches scenes depending on if admin is logging in
+			if(!usernameLocked.equals("adminadmin")) {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(getClass().getResource("AccountPage.fxml"));
+				Parent root = loader.load();
+				
+				Scene accountPageScene = new Scene(root);
+				
+				//Sends data to the controller before showing
+				AccountPageController accountController = loader.getController();
+				accountController.setUserInfo(rs);
+				
+				
+				Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
+				
+				window.setScene(accountPageScene);
+				window.show();
+			}else {
+				
+				String adminDBQuery = "SELECT AMOUNT_OF_ACCOUNTS, "
+										+ "FIRST_NAME, "
+										+ "LAST_LOGIN, "
+										+ "STATE, "
+										+ "ZIP_CODE "
+										+ ""
+										+ "FROM USER_INFORMATION";
+				
+				ResultSet dBQuery = st.executeQuery(adminDBQuery);
+				
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(getClass().getResource("AdminPage.fxml"));
+				Parent root = loader.load();
+				
+				Scene accountPageScene = new Scene(root);
+				
+				//Sends data to the controller before showing
+				AdminPageController accountController = loader.getController();
+				accountController.fillDatabaseArray(dBQuery);
+				
+				Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
+				
+				window.setScene(accountPageScene);
+				window.show();
+			}//end nest if-else
 			
 		} else {
 			userNotFound.setVisible(true);
