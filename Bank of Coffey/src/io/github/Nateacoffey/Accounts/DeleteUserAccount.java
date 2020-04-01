@@ -1,4 +1,4 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Accounts;
 
 public class DeleteUserAccount {
 	boolean DeleteFromArray(int arrayElement){

@@ -1,4 +1,4 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Accounts;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -51,12 +51,11 @@ public class ArraySerial {
 		
 		
 		try {
-			//byte[] b = serial.getBytes(StandardCharsets.UTF_8);
 			byte[] byteArray = Base64.getDecoder().decode(serial);
 			
 			
 			ByteArrayInputStream bis = new ByteArrayInputStream(byteArray);
-			ObjectInput in = new ObjectInputStream(bis); //error
+			ObjectInput in = new ObjectInputStream(bis);
 			
 			arrayOfAccounts = (UserAccountInformation[]) in.readObject();
 			

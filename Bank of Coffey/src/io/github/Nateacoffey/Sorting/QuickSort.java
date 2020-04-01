@@ -1,6 +1,6 @@
 package io.github.Nateacoffey.Sorting;
 
-import io.github.Nateacoffey.Application.DatabaseUsersInformation;
+import io.github.Nateacoffey.Admin.DatabaseUsersInformation;
 
 public class QuickSort {
 	

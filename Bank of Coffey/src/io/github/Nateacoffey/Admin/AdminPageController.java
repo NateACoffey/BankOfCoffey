@@ -1,4 +1,4 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Admin;
 
 
 import java.io.IOException;
@@ -117,7 +117,7 @@ public class AdminPageController implements Initializable {
 	
 	public void toLogInScreen(ActionEvent e) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("LogInScreen.fxml"));
+		loader.setLocation(getClass().getResource("/io/github/Nateacoffey/Application/LogInScreen.fxml"));
 		Parent root = loader.load();
 		
 		Scene accountPageScene = new Scene(root);

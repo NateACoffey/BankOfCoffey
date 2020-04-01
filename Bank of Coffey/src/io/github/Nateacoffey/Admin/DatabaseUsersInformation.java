@@ -1,4 +1,4 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Admin;
 
 public class DatabaseUsersInformation {
 	

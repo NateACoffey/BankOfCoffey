@@ -1,11 +1,11 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Accounts;
 
 import java.time.LocalDate;
 
 public class UserInformation {
 	
 	
-	static UserAccountInformation[] ArrayOfAccounts = new UserAccountInformation[5]; 
+	public static UserAccountInformation[] ArrayOfAccounts = new UserAccountInformation[5]; 
 	
 	
 	private String firstName = "";
@@ -22,9 +22,9 @@ public class UserInformation {
 	
 	private LocalDate lastLogin;//admin purposes only
 	
+	public UserInformation() {}
 	
-	
-	public UserInformation(String username,
+	UserInformation(String username,
 							String firstName,
 							 String lastName,
 							  String address,

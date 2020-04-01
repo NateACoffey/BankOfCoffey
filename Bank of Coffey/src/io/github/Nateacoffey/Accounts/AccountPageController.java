@@ -1,6 +1,8 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Accounts;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +25,7 @@ import javafx.fxml.Initializable;
 public class AccountPageController implements Initializable {
 	
 	UserInformation user;
+	UserAccountInformation userObject;
 	
 	public TextField test;
 	public Text greeting;
@@ -33,6 +37,7 @@ public class AccountPageController implements Initializable {
 	public Text userState;
 	public Text userZipCode;
 	public Text userPhoneNumber;
+	public ChoiceBox<String> addAccountList;
 	
 	
 	//sets and displays the proper information
@@ -63,10 +68,50 @@ public class AccountPageController implements Initializable {
 		
 	}
 	
+	public void serialAccount(ActionEvent e) {
+		
+		
+	}
+	
+	public void addAccount(ActionEvent e) {
+		
+		AddUserAccount addAccount = new AddUserAccount();
+		
+		if(addAccount.AddAccountToArray(addAccountList.getValue())) {
+			
+			System.out.println("yay");
+			
+		}else {
+			
+			System.out.println(":(");
+			
+		}
+		
+	}
+	
+	public void deleteAccount(ActionEvent e) {
+		
+		DeleteUserAccount deleteAccount = new DeleteUserAccount();
+		
+		if(deleteAccount.DeleteFromArray(0))
+			System.out.println("Yay2");
+		else
+			System.out.println(":(2");
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void toLogInScreen(ActionEvent e) throws IOException {
 		
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("LogInScreen.fxml"));
+		loader.setLocation(getClass().getResource("/io/github/Nateacoffey/Application/LogInScreen.fxml"));
 		Parent root = loader.load();
 		
 		Scene accountPageScene = new Scene(root);
@@ -93,7 +138,14 @@ public class AccountPageController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		ObservableList<String> accountList = FXCollections.observableArrayList();
 		
+		accountList.removeAll(accountList);
+		String[] accountTypes = {	"CHECKING", "SAVINGS", "INTEREST_BEARING", "MONEY_MARKET"};
+		
+		accountList.addAll(accountTypes);
+		
+		addAccountList.getItems().addAll(accountList);
 		
 	}
 }

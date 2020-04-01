@@ -1,4 +1,4 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Accounts;
 
 public class UserAccountInformation implements java.io.Serializable {
 	

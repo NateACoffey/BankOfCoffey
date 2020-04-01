@@ -16,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 
 import java.util.ResourceBundle;
 
+import io.github.Nateacoffey.Accounts.AccountPageController;
+import io.github.Nateacoffey.Admin.AdminPageController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -41,7 +43,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 
 
-public class LogInController implements Initializable {
+public class LogInScreenController implements Initializable {
 	
 	Statement st;
 	ResultSet rs;
@@ -147,7 +149,7 @@ public class LogInController implements Initializable {
 		String zipCodeString = newZipCode.getText();
 		int zipCode;
 		
-		final String defaultArraySerial = "rO0ABXVyADtbTGlvLmdpdGh1Yi5OYXRlYWNvZmZleS5BcHBsaWNhdGlvbi5Vc2VyQWNjb3VudEluZm9ybWF0aW9uO5xfiHkTqZHrAgAAeHAAAAAFcHBwcHA";
+		final String defaultArraySerial = "rO0ABXVyADhbTGlvLmdpdGh1Yi5OYXRlYWNvZmZleS5BY2NvdW50cy5Vc2VyQWNjb3VudEluZm9ybWF0aW9uO++U7eBH5PqdAgAAeHAAAAAFcHBwcHA=";
 		
 		String formatDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY/MM/dd"));
 		
@@ -262,21 +264,20 @@ public class LogInController implements Initializable {
 			rs = null;
 		
 		if(rs.isBeforeFirst() && rs != null) {
-            
+			
 			updateLoginDate(usernameLocked, hash.hashString(password.getText()));
 			
 			//switches scenes depending on if admin is logging in
 			if(!usernameLocked.equals("adminadmin")) {
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("AccountPage.fxml"));
+				loader.setLocation(getClass().getResource("/io/github/Nateacoffey/Accounts/AccountPage.fxml"));
 				Parent root = loader.load();
 				
 				Scene accountPageScene = new Scene(root);
 				
 				//Sends data to the controller before showing
 				AccountPageController accountController = loader.getController();
-				accountController.setUserInfo(rs);
-				
+				accountController.setUserInfo(rs);//error TODO
 				
 				Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
 				
@@ -295,7 +296,7 @@ public class LogInController implements Initializable {
 				ResultSet dBQuery = st.executeQuery(adminDBQuery);
 				
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("AdminPage.fxml"));
+				loader.setLocation(getClass().getResource("/io/github/Nateacoffey/Admin/AdminPage.fxml"));
 				Parent root = loader.load();
 				
 				Scene accountPageScene = new Scene(root);

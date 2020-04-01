@@ -1,7 +1,7 @@
-package io.github.Nateacoffey.Application;
+package io.github.Nateacoffey.Accounts;
 
 public class Deposit {
-	public double Insert(double balance, double amount) {
+	double Insert(double balance, double amount) {
 		
 		double endBalance = balance + amount;
 		
