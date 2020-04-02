@@ -9,7 +9,7 @@ public class AddUserAccount {
 			
 			if(accounts[i] == null ) {
 				//add the account to the first array then immediately return true
-				UserAccountInformation accountInit = new UserAccountInformation(accountType);
+				UserAccountInformation accountInit = new UserAccountInformation(accountType, i);
 				
 				accounts[i] = accountInit;
 				

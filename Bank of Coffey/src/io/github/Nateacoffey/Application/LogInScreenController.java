@@ -226,7 +226,7 @@ public class LogInScreenController implements Initializable {
 			newLastName.setText("");
 			newAddress.setText("");
 			newCity.setText("");
-			newState.setValue("");
+			newState.setValue(null);
 			newZipCode.setText("");
 			newPhoneNumber.setText("");
 			
@@ -277,7 +277,7 @@ public class LogInScreenController implements Initializable {
 				
 				//Sends data to the controller before showing
 				AccountPageController accountController = loader.getController();
-				accountController.setUserInfo(rs);//error TODO
+				accountController.setUserInfo(rs, st);//error TODO
 				
 				Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
 				

@@ -15,12 +15,12 @@ public class ArraySerial {
 	
 	
 	
-	public void serial(UserAccountInformation[] arrayOfAccounts, String username, Statement st) {
+	public void serial(String username, Statement st) {
 		try {
 			//converts Array to byte[] stream
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			ObjectOutput out = new ObjectOutputStream(bos);
-			out.writeObject(arrayOfAccounts);
+			out.writeObject(UserInformation.ArrayOfAccounts);
 			byte[] byteArray = bos.toByteArray();
 			
 			String test = Base64.getEncoder().encodeToString(byteArray);

@@ -1,24 +1,22 @@
 package io.github.Nateacoffey.Accounts;
 
 public class Transfer {
-	void MoneyTransfer(int accountOut, int accountIn, double amount) {
+	boolean MoneyTransfer(int accountOut, double amount, int accountIn) {
+		
 		Withdrawal withdraw = new Withdrawal();
 		Deposit deposit = new Deposit();
 		
-		UserAccountInformation[] accounts = UserInformation.ArrayOfAccounts;
 		
-		double balance;
+		if( amount > 0 && withdraw.Withdraw(accountOut, amount)) {
+			if(deposit.Insert(accountIn, amount)) {
+				return true;
+			}else {
+				return false;
+			}
+		}
 		
-		//Take the money out of the account we are transferring from
-		balance = accounts[accountOut].getBalance(); 
 		
-		accounts[accountOut].setBalance(withdraw.Withdraw(balance, amount));
-		
-		//Put the money into the account we transferring to
-		balance = accounts[accountIn].getBalance();
-		
-		accounts[accountIn].setBalance(deposit.Insert(balance, amount));
-		
+		return false;
 		
 	}
 }

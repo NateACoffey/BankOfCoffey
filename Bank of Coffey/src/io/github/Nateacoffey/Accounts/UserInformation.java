@@ -8,6 +8,8 @@ public class UserInformation {
 	public static UserAccountInformation[] ArrayOfAccounts = new UserAccountInformation[5]; 
 	
 	
+	private String username = "";
+	
 	private String firstName = "";
 	private String lastName = "";
 	
@@ -36,6 +38,7 @@ public class UserInformation {
 								    int amountOfAccount
 							) {
 		
+		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
@@ -49,6 +52,9 @@ public class UserInformation {
 	}
 	
 	
+	public String getUsername() {
+		return username;
+	}
 	
 	public String getFirstName() {
 		return firstName;

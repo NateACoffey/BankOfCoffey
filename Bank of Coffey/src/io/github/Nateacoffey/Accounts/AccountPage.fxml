@@ -4,8 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -15,22 +15,17 @@
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="640.0">
          <children>
-            <Button layoutX="22.0" layoutY="29.0" mnemonicParsing="false" text="Withdraw" />
-            <Button layoutX="22.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Deposit" />
-            <Button layoutX="22.0" layoutY="101.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Transfer" />
-            <Button onAction="#addAccount" layoutX="22.0" layoutY="135.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Add Account" />
-            <Button layoutX="22.0" layoutY="168.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete Account" />
+            <Button layoutX="50.0" layoutY="282.0" mnemonicParsing="false" onAction="#withdrawFunds" text="Withdraw" />
+            <Button layoutX="165.0" layoutY="282.0" mnemonicParsing="false" onAction="#depositFunds" prefHeight="25.0" prefWidth="67.0" text="Deposit" />
+            <Button layoutX="287.0" layoutY="282.0" mnemonicParsing="false" onAction="#transferFunds" prefHeight="25.0" prefWidth="67.0" text="Transfer" />
+            <Button layoutX="397.0" layoutY="282.0" mnemonicParsing="false" onAction="#addAccount" prefHeight="25.0" prefWidth="87.0" text="Add Account" />
+            <Button layoutX="507.0" layoutY="282.0" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="25.0" prefWidth="100.0" text="Delete Account" />
             
             <Text fx:id="greeting" layoutX="507.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" wrappingWidth="120.13671875" />
             <Button layoutX="567.0" layoutY="39.0" mnemonicParsing="false" onAction="#toLogInScreen" text="Log Out" />
             <Button layoutX="507.0" layoutY="39.0" mnemonicParsing="false" onAction="#showProfile" text="Profile" />
             
-            <TableView layoutX="152.0" layoutY="100.0" prefHeight="200.0" prefWidth="337.0">
-              <columns>
-                <TableColumn prefWidth="198.0" text="Account" />
-                <TableColumn prefWidth="138.0" text="Balance" />
-              </columns>
-            </TableView>
+            <TableView fx:id="table" focusTraversable="false" layoutX="44.0" layoutY="30.0" prefHeight="229.0" prefWidth="422.0" scaleShape="false" />
             <DialogPane fx:id="profile" layoutX="158.0" layoutY="69.0" prefHeight="248.0" prefWidth="325.0" visible="false">
                <header>
                   <Pane prefHeight="226.0" prefWidth="235.0">
@@ -42,14 +37,14 @@
                         <Text layoutX="26.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip Code:" wrappingWidth="59.0" />
                         <Text layoutX="24.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number:" />
                         
-                              <Text fx:id="userName" layoutX="146.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
+                        <Text fx:id="userName" layoutX="146.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
                         <Text fx:id="userAddress" layoutX="146.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
                         <Text fx:id="userCity" layoutX="146.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
                         <Text fx:id="userState" layoutX="146.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textAlignment="RIGHT" />
                         <Text fx:id="userZipCode" layoutX="146.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" />
                         <Text fx:id="userPhoneNumber" layoutX="150.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" />
                         
-                              <Button layoutX="239.0" layoutY="185.0" mnemonicParsing="false" onAction="#hideProfile" text="Close" />
+                        <Button layoutX="239.0" layoutY="185.0" mnemonicParsing="false" onAction="#hideProfile" text="Close" />
                      </children>
                   </Pane>
                </header>
@@ -57,11 +52,38 @@
                   <Insets />
                </opaqueInsets>
             </DialogPane>
-            <Pane layoutX="9.0" layoutY="200.0" prefHeight="200.0" prefWidth="145.0">
+            <Pane layoutX="23.0" layoutY="320.0" prefHeight="57.0" prefWidth="120.0">
                <children>
-                  <ChoiceBox fx:id="addAccountList" layoutX="5.0" layoutY="14.0" prefHeight="25.0" prefWidth="138.0" />
+                  <ChoiceBox fx:id="withdrawAccountList" layoutX="5.0" layoutY="2.0" prefHeight="25.0" prefWidth="111.0" />
+                  <TextField fx:id="withdrawAccountText" layoutX="5.0" layoutY="27.0" prefHeight="25.0" prefWidth="111.0" />
                </children>
             </Pane>
+            <Pane layoutX="138.0" layoutY="320.0" prefHeight="76.0" prefWidth="120.0">
+               <children>
+                  <ChoiceBox fx:id="depositAccountList" layoutX="4.0" layoutY="2.0" prefHeight="25.0" prefWidth="111.0" />
+                  <TextField fx:id="depositAccountText" layoutX="4.0" layoutY="26.0" prefHeight="25.0" prefWidth="111.0" />
+               </children>
+            </Pane>
+            <Pane layoutX="260.0" layoutY="311.0" prefHeight="82.0" prefWidth="120.0">
+               <children>
+                  <ChoiceBox fx:id="transferFromAccountList" layoutX="5.0" layoutY="2.0" prefHeight="25.0" prefWidth="111.0" />
+                  <TextField fx:id="transferAccountText" layoutX="5.0" layoutY="27.0" prefHeight="25.0" prefWidth="111.0" />
+                  <ChoiceBox fx:id="transferToAccountList" layoutX="5.0" layoutY="52.0" prefHeight="25.0" prefWidth="111.0" />
+               </children>
+            </Pane>
+            <Pane layoutX="380.0" layoutY="324.0" prefHeight="57.0" prefWidth="120.0">
+               <children>
+                  <ChoiceBox fx:id="addAccountList" layoutX="5.0" layoutY="14.0" prefHeight="25.0" prefWidth="111.0" />
+               </children>
+            </Pane>
+            <Pane layoutX="497.0" layoutY="324.0" prefHeight="57.0" prefWidth="120.0">
+               <children>
+                  <ChoiceBox fx:id="deleteAccountList" layoutX="5.0" layoutY="14.0" prefHeight="25.0" prefWidth="111.0" />
+               </children>
+            </Pane>
+            <Text fx:id="emptyChoice" fill="RED" layoutX="27.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selection box cannot be blank." visible="false" wrappingWidth="111.0" />
+            <Text fx:id="notANumber" fill="RED" layoutX="22.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a numeric value." visible="false" wrappingWidth="100.0" />
+            <Text fx:id="accountNotFound" fill="RED" layoutX="22.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="false" wrappingWidth="100.0" />
          </children>
       </AnchorPane>
    </children>

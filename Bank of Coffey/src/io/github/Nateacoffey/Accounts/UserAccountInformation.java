@@ -11,14 +11,16 @@ public class UserAccountInformation implements java.io.Serializable {
 	
 	private AccountType accountType;
 	private double balance;
+	private int id;
 	
 	
-	UserAccountInformation(String accountType) {
+	UserAccountInformation(String accountType, int id) {
 		
 		AccountType typeValue = AccountType.valueOf(accountType.toUpperCase());
 		
 		this.accountType = typeValue;
-		this.balance = 0;
+		this.id = id;
+		this.balance = 0.0;
 	}
 	
 	
@@ -34,4 +36,7 @@ public class UserAccountInformation implements java.io.Serializable {
 		return balance;
 	}
 	
+	public int getId() {
+		return id;
+	}
 }
