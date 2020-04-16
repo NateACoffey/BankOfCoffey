@@ -30,7 +30,7 @@ public class MergeSort {
 			case "State":
 				compare = leftArray[i].getState().compareTo(rightArray[j].getState());
 				break;
-			case "Zip Code":
+			default://case Zip Code
 				intWrapI = new Integer(leftArray[i].getZipCode());
 				intWrapJ = new Integer(rightArray[j].getZipCode());
 				
@@ -41,63 +41,69 @@ public class MergeSort {
 		return compare;
 	}
 	
-	private DatabaseUsersInformation[] merge(DatabaseUsersInformation[] array, int l, int m, int r) {
+	private DatabaseUsersInformation[] merge(DatabaseUsersInformation[] array, int low, int middle, int high) {
 		
-		int n1 = m - l + 1;
-		int n2 = r - m;
+		//gets the sizes of the two sub-arrays
+		int leftArrayLength = middle - low + 1;
+		int rightArrayLength = high - middle;
 		
-		DatabaseUsersInformation[] L = new DatabaseUsersInformation[n1];
-		DatabaseUsersInformation[] R = new DatabaseUsersInformation[n2];
+		DatabaseUsersInformation[] leftArrayCopy = new DatabaseUsersInformation[leftArrayLength];
+		DatabaseUsersInformation[] rightArrayCopy = new DatabaseUsersInformation[rightArrayLength];
 		
-		for(int i = 0; i < n1; ++i) {
-			L[i] = array[l + i];
+		//copies arrays to the temporary arrays
+		for(int i = 0; i < leftArrayLength; ++i) {
+			leftArrayCopy[i] = array[low + i];
 		}
 		
-		for(int i = 0; i < n2; ++i) {
-			R[i] = array[m + 1 + i];
+		for(int i = 0; i < rightArrayLength; ++i) {
+			rightArrayCopy[i] = array[middle + 1 + i];
 		}
 		
+		//array indexes
+		int leftArrayIndex = 0, rightArrayIndex = 0;
 		
-		int i = 0, j = 0;
-		
-		int k = l;
-		while(i < n1 && j < n2) {
-			if(switchComparison(L, i, R, j) <= 0) {
-				array[k] = L[i];
-				i++;
+		//compares copied array values and adds the smaller object value into the array
+		int lowCounter = low;
+		while(leftArrayIndex < leftArrayLength && rightArrayIndex < rightArrayLength) {
+			if(switchComparison(leftArrayCopy, leftArrayIndex, rightArrayCopy, rightArrayIndex) <= 0) {
+				array[lowCounter] = leftArrayCopy[leftArrayIndex];
+				leftArrayIndex++;
 			}else {
-				array[k] = R[j];
-				j++;
+				array[lowCounter] = rightArrayCopy[rightArrayIndex];
+				rightArrayIndex++;
 			}
-			k++;
+			lowCounter++;
 		}
 		
-		while(i < n1) {
-			array[k] = L[i];
-			i++;
-			k++;
+		//copies any elements leftover
+		while(leftArrayIndex < leftArrayLength) {
+			array[lowCounter] = leftArrayCopy[leftArrayIndex];
+			leftArrayIndex++;
+			lowCounter++;
 		}
 		
-		while(j < n2) {
-			array[k] = R[j];
-			j++;
-			k++;
+		//copies any elements leftover
+		while(rightArrayIndex < rightArrayLength) {
+			array[lowCounter] = rightArrayCopy[rightArrayIndex];
+			rightArrayIndex++;
+			lowCounter++;
 		}
 		
 		
 		return array;
 	}
 	
-	private DatabaseUsersInformation[] mergeSort(DatabaseUsersInformation[] array, int l, int r) {
+	private DatabaseUsersInformation[] mergeSort(DatabaseUsersInformation[] array, int low, int high) {
 		
-		if(l < r) {
-			int middle = (l + r) / 2;
+		if(low < high) {
+			int middle = (low + high) / 2;
 			
-			array = mergeSort(array, l, middle);
-			array = mergeSort(array, middle + 1, r);
+			//sorts the left and right sub-arrays
+			array = mergeSort(array, low, middle);
+			array = mergeSort(array, middle + 1, high);
 			
-			
-			array = merge(array, l, middle, r);
+			//merges the two sub-arrays
+			array = merge(array, low, middle, high);
 		}
 		
 		return array;

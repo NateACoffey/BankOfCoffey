@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class UserInformation {
 	
 	
-	public static UserAccountInformation[] ArrayOfAccounts = new UserAccountInformation[5]; 
+	public static UserAccountInformation[] arrayOfAccounts = new UserAccountInformation[5]; 
 	
 	
 	private String username = "";
@@ -48,7 +48,7 @@ public class UserInformation {
 		this.phoneNumber = phoneNumber.replaceAll("[^\\d]", "");
 		
 		ArraySerial serial = new ArraySerial();
-		UserInformation.ArrayOfAccounts = serial.deserial(accountSerial);
+		UserInformation.arrayOfAccounts = serial.deserial(accountSerial);
 	}
 	
 	

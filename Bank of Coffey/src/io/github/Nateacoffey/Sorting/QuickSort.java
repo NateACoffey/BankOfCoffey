@@ -30,7 +30,7 @@ public class QuickSort {
 			case "State":
 				compare = array[i].getState().compareTo(right.getState());
 				break;
-			case "Zip Code":
+			default://case Zip Code
 				intWrapI = new Integer(array[i].getZipCode());
 				intWrapJ = new Integer(right.getZipCode());
 				
@@ -47,6 +47,7 @@ public class QuickSort {
 		int i = low - 1;
 		
 		for(int j = low; j < high; j++) {
+			//trades the current element (j) with the element to the right of the higher value element less than the pivot (i) in the array
 			if(switchComparison(array, j, pivot) < 0 ) {
 				i++;
 				
@@ -56,6 +57,7 @@ public class QuickSort {
 			}
 		}
 		
+		//final swap of the pivot with the highest value element that is smaller than the pivot
 		DatabaseUsersInformation temp = array[i + 1];
 		array[i + 1] = array[high];
 		array[high] = temp;

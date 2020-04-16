@@ -20,9 +20,13 @@ public class Launcher extends Application {
 		primaryStage.getIcons().add(new Image("file:icon.png"));	//favicon
 		primaryStage.setScene(new Scene(root, 640, 400));
 		primaryStage.show();
-        
-        
+		
+        primaryStage.setOnCloseRequest(e -> closeProgram(primaryStage));
     }
+	
+	private void closeProgram(Stage primaryStage) {
+		primaryStage.close();
+	}
 	
 	
 	public static void main(String[] args) {

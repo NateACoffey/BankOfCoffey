@@ -25,8 +25,8 @@
             <Button layoutX="567.0" layoutY="39.0" mnemonicParsing="false" onAction="#toLogInScreen" text="Log Out" />
             <Button layoutX="507.0" layoutY="39.0" mnemonicParsing="false" onAction="#showProfile" text="Profile" />
             
-            <TableView fx:id="table" focusTraversable="false" layoutX="44.0" layoutY="30.0" prefHeight="229.0" prefWidth="422.0" scaleShape="false" />
-            <DialogPane fx:id="profile" layoutX="158.0" layoutY="69.0" prefHeight="248.0" prefWidth="325.0" visible="false">
+            <TableView fx:id="userAccountTable" focusTraversable="false" layoutX="44.0" layoutY="30.0" prefHeight="229.0" prefWidth="422.0" scaleShape="false" />
+            <DialogPane style="-fx-border-color:black; -fx-border-width:1; -fx-border-style:solid;" fx:id="profile" layoutX="158.0" layoutY="60.0" prefHeight="248.0" prefWidth="325.0" visible="false">
                <header>
                   <Pane prefHeight="226.0" prefWidth="235.0">
                      <children>

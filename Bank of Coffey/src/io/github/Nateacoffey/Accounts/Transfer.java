@@ -7,12 +7,19 @@ public class Transfer {
 		Deposit deposit = new Deposit();
 		
 		
+		//sends the transfer amount to withdraw and then deposit from selected account
 		if( amount > 0 && withdraw.Withdraw(accountOut, amount)) {
+			
 			if(deposit.Insert(accountIn, amount)) {
+				
 				return true;
+				
 			}else {
+				
 				return false;
+				
 			}
+			
 		}
 		
 		

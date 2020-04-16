@@ -23,56 +23,57 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 public class AccountPageController implements Initializable {
 	
-	Statement st;
+	final int userAccountArrayLength = UserInformation.arrayOfAccounts.length;
 	
-	UserInformation user;
-	UserAccountInformation userObject;
+	Statement databaseSQLStatement;
 	
-	public TextField test;
-	public Text greeting;
+	UserInformation userProfileInformation;
 	
-	public TableView<UserAccountInformation> table;
+	@FXML private Text greeting;
 	
-	public Text emptyChoice;
-	public Text notANumber;
-	public Text accountNotFound;
+	@FXML private TableView<UserAccountInformation> userAccountTable;
 	
-	public DialogPane profile;
-	public Text userName;
-	public Text userAddress;
-	public Text userCity;
-	public Text userState;
-	public Text userZipCode;
-	public Text userPhoneNumber;
+	@FXML private Text emptyChoice;
+	@FXML private Text notANumber;
+	@FXML private Text accountNotFound;
 	
-	public ChoiceBox<Integer> withdrawAccountList;
-	public TextField withdrawAccountText;
+	@FXML private DialogPane profile;
+	@FXML private Text userName;
+	@FXML private Text userAddress;
+	@FXML private Text userCity;
+	@FXML private Text userState;
+	@FXML private Text userZipCode;
+	@FXML private Text userPhoneNumber;
 	
-	public ChoiceBox<Integer> depositAccountList;
-	public TextField depositAccountText;
+	@FXML private ChoiceBox<Integer> withdrawAccountList;
+	@FXML private TextField withdrawAccountText;
 	
-	public ChoiceBox<Integer> transferFromAccountList;
-	public TextField transferAccountText;
-	public ChoiceBox<Integer> transferToAccountList;
+	@FXML private ChoiceBox<Integer> depositAccountList;
+	@FXML private TextField depositAccountText;
 	
-	public ChoiceBox<String> addAccountList;
+	@FXML private ChoiceBox<Integer> transferFromAccountList;
+	@FXML private TextField transferAccountText;
+	@FXML private ChoiceBox<Integer> transferToAccountList;
 	
-	public ChoiceBox<Integer> deleteAccountList;
+	@FXML private ChoiceBox<String> addAccountList;
+	
+	@FXML private ChoiceBox<Integer> deleteAccountList;
 	
 	
 	//sets and displays the proper information
-	public void setUserInfo(ResultSet rs, Statement st) throws SQLException {
+	public void setUserInfo(ResultSet rs, Statement databaseSQLStatement) throws SQLException {
 		
-		this.st = st;
+		this.databaseSQLStatement = databaseSQLStatement;
 		
 		rs.next();
 		
-		user = new UserInformation(rs.getString("USERNAME"),
+		userProfileInformation = new UserInformation(rs.getString("USERNAME"),
 								   rs.getString("FIRST_NAME"),
 									rs.getString("LAST_NAME"),
 									 rs.getString("ADDRESS"),
@@ -84,14 +85,14 @@ public class AccountPageController implements Initializable {
 									       rs.getInt("AMOUNT_OF_ACCOUNTS")
 									);
 		
-		greeting.setText("Hello, " + user.getFirstName());
+		greeting.setText("Hello, " + userProfileInformation.getFirstName());
 		
-		userName.setText(user.getFirstName() + " " + user.getLastName());
-		userAddress.setText(user.getAddress());
-		userCity.setText(user.getCity());
-		userState.setText(user.getState());
-		userZipCode.setText(Integer.toString(user.getZipCode()));
-		userPhoneNumber.setText(user.getPhoneNumber());
+		userName.setText(userProfileInformation.getFirstName() + " " + userProfileInformation.getLastName());
+		userAddress.setText(userProfileInformation.getAddress());
+		userCity.setText(userProfileInformation.getCity());
+		userState.setText(userProfileInformation.getState());
+		userZipCode.setText(Integer.toString(userProfileInformation.getZipCode()));
+		userPhoneNumber.setText(userProfileInformation.getPhoneNumber());
 		
 		
 		fillTable();
@@ -101,28 +102,29 @@ public class AccountPageController implements Initializable {
 		
 		ArraySerial serialize = new ArraySerial();
 		
-		serialize.serial(user.getUsername(), st);
+		serialize.serial(userProfileInformation.getUsername(), databaseSQLStatement);
 		
 	}
 	
 	
+	//Fills the table with the User's accounts
 	public void fillTable() {
 		
-		table.getItems().clear();
+		userAccountTable.getItems().clear();
 		
 		ObservableList<UserAccountInformation> userAccountList = FXCollections.observableArrayList();
 		
-		
-		for(UserAccountInformation uai : UserInformation.ArrayOfAccounts) {
+		//iterates through the User static array and adds all non-null element to the list
+		for(UserAccountInformation userObject : UserInformation.arrayOfAccounts) {
 			
-			if(uai != null) {
+			if(userObject != null) {
 				
-				userAccountList.add(uai);
+				userAccountList.add(userObject);
 				
 			}
 		}
 		
-		table.getItems().addAll(userAccountList);
+		userAccountTable.getItems().addAll(userAccountList);
 		
 	}
 	
@@ -133,6 +135,7 @@ public class AccountPageController implements Initializable {
 		accountNotFound.setVisible(false);
 		accountNotFound.setText("");
 		
+		//if withdraw fields are empty
 		if(withdrawAccountList.getValue() == null || withdrawAccountText.getText() == null) {
 			emptyChoice.setVisible(true);
 			return;
@@ -144,12 +147,15 @@ public class AccountPageController implements Initializable {
 			int accountId = withdrawAccountList.getValue().intValue();
 			double money = Double.valueOf(withdrawAccountText.getText());
 			
-			if(UserInformation.ArrayOfAccounts[accountId] != null) {
+			//verifies the account ID  exists
+			if(UserInformation.arrayOfAccounts[accountId] != null) {
 				if(withdraw.Withdraw(accountId, money)) {
 					
+					//empty withdraw fields
 					withdrawAccountText.setText("");
 					withdrawAccountList.setValue(null);
 					
+					//refreshes the table with new values and serializes the array to the database
 					fillTable();
 					serialAccount();
 					
@@ -173,6 +179,7 @@ public class AccountPageController implements Initializable {
 		accountNotFound.setVisible(false);
 		accountNotFound.setText("");
 		
+		//verifies deposit fields are not empty
 		if(depositAccountList.getValue() == null || depositAccountText.getText() == null) {
 			emptyChoice.setVisible(true);
 			return;
@@ -184,12 +191,14 @@ public class AccountPageController implements Initializable {
 			int accountId = depositAccountList.getValue().intValue();
 			double money = Double.valueOf(depositAccountText.getText());
 			
-			if(UserInformation.ArrayOfAccounts[accountId] != null) {
+			if(UserInformation.arrayOfAccounts[accountId] != null) {
 				if(deposit.Insert(accountId, money)) {
 					
+					//empties deposit fields
 					depositAccountText.setText("");
 					depositAccountList.setValue(null);
 					
+					//refreshes the table with new values and serializes the array to the database
 					fillTable();
 					serialAccount();
 					
@@ -213,6 +222,7 @@ public class AccountPageController implements Initializable {
 		accountNotFound.setVisible(false);
 		accountNotFound.setText("");
 		
+		//verifies transfer fields are not empty
 		if(transferFromAccountList.getValue() == null 
 				|| transferAccountText.getText() == null 
 				|| transferToAccountList.getValue() == null) {
@@ -228,14 +238,16 @@ public class AccountPageController implements Initializable {
 			double money = Double.valueOf(transferAccountText.getText());
 			int accountIdTo = transferToAccountList.getValue().intValue();
 			
-			if(UserInformation.ArrayOfAccounts[accountIdFrom] != null && UserInformation.ArrayOfAccounts[accountIdTo] != null) {
+			if(UserInformation.arrayOfAccounts[accountIdFrom] != null && UserInformation.arrayOfAccounts[accountIdTo] != null) {
 				if(money > 0) {
 					if(transfer.MoneyTransfer(accountIdFrom, money, accountIdTo)){
 						
+						//empties transfer fields
 						transferFromAccountList.setValue(null);
 						transferAccountText.setText("");
 						transferToAccountList.setValue(null);
 						
+						//refreshes the table with new values and serializes the array to the database
 						fillTable();
 						serialAccount();
 						
@@ -273,10 +285,12 @@ public class AccountPageController implements Initializable {
 		
 		AddUserAccount addAccount = new AddUserAccount();
 		
+		//returns false if the User static array is already full
 		if(addAccount.AddAccountToArray(addAccountList.getValue())) {
 			
 			addAccountList.setValue(null);
 			
+			//refreshes the table with new values and serializes the array to the database
 			fillTable();
 			serialAccount();
 			
@@ -301,10 +315,12 @@ public class AccountPageController implements Initializable {
 		
 		DeleteUserAccount deleteAccount = new DeleteUserAccount();
 		
+		//returns false if the account ID does not exist
 		if(deleteAccount.DeleteFromArray(deleteAccountList.getValue())) {
 			
 			deleteAccountList.setValue(null);
 			
+			//refreshes the table with new values and serializes the array to the database
 			fillTable();
 			serialAccount();
 			
@@ -327,7 +343,7 @@ public class AccountPageController implements Initializable {
 		
 		Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
 		
-		user = null;//empties user data before switching scenes
+		userProfileInformation = null;//empties user data before switching scenes
 		
 		window.setScene(accountPageScene);
 		window.show();
@@ -376,24 +392,24 @@ public class AccountPageController implements Initializable {
 		
 		//set tableview columns
 		TableColumn<UserAccountInformation, Integer> idColumn = new TableColumn<>("ID");
-		idColumn.setMinWidth(table.getPrefWidth() * 0.1);
+		idColumn.setMinWidth(userAccountTable.getPrefWidth() * 0.1);
 		idColumn.setStyle("-fx-alignment: CENTER");
 		idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 		
 		TableColumn<UserAccountInformation, String> accountColumn = new TableColumn<>("Account");
-		accountColumn.setMinWidth(table.getPrefWidth() * 0.6);
+		accountColumn.setMinWidth(userAccountTable.getPrefWidth() * 0.6);
 		accountColumn.setStyle("-fx-alignment: CENTER");
 		accountColumn.setCellValueFactory(new PropertyValueFactory<>("accountType"));
 		
 		
 		TableColumn<UserAccountInformation, Double> balanceColumn = new TableColumn<>("Balance");
-		balanceColumn.setMinWidth(table.getPrefWidth() * 0.3);
+		balanceColumn.setMinWidth(userAccountTable.getPrefWidth() * 0.3);
 		balanceColumn.setStyle("-fx-alignment: CENTER");
 		balanceColumn.setCellValueFactory(new PropertyValueFactory<>("balance"));
 		
-		table.getColumns().add(idColumn);
-		table.getColumns().add(accountColumn);
-		table.getColumns().add(balanceColumn);
+		userAccountTable.getColumns().add(idColumn);
+		userAccountTable.getColumns().add(accountColumn);
+		userAccountTable.getColumns().add(balanceColumn);
 		
 	}
 }

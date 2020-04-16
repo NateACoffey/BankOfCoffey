@@ -28,7 +28,7 @@ public class InsertionSort {
 			case "State":
 				compare = array[j].getState().compareTo(key.getState());
 				break;
-			case "Zip Code":
+			default://case Zip Code
 				intWrapI = new Integer(array[j].getZipCode());
 				intWrapJ = new Integer(key.getZipCode());
 				
@@ -52,12 +52,16 @@ public class InsertionSort {
 			
 			int compare;
 			
+			//compares based on sorted field
 			compare = switchComparison(column, array, j, key);
 			
+			
+			//move all elements greater than the Object array value to the right one
 			while(j >= 0 && compare > 0) {
 				array[j + 1] = array[j];
 				j -= 1;
 				
+				//re-compares the Object array values
 				if(j >= 0)
 					compare = switchComparison(column, array, j, key);
 			}

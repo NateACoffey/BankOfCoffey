@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.fxml.FXMLLoader;
@@ -45,54 +46,39 @@ import javafx.scene.text.Text;
 
 public class LogInScreenController implements Initializable {
 	
-	Statement st;
-	ResultSet rs;
+	Statement databaseSQLStatement;
+	ResultSet databaseResults;
 	Connection dbConnection = null;
 	
 	Hash hash = new Hash();
 	
-	private String usernameLocked;	//locks the username to prevent alteration
+	//locks the username to prevent alteration
+	private String usernameLocked;
 	
-	public DialogPane newAccount;
-	public TextField username;
-	public PasswordField password;
-	public Text userNotFound;
+	@FXML private DialogPane newAccount;
+	@FXML private TextField username;
+	@FXML private PasswordField password;
+	@FXML private Text userNotFound;
 	
-	public TextField newUsername;
-	public TextField newPassword;
-	public TextField newPasswordConfirm;
-	public TextField newFirstName;
-	public TextField newLastName;
-	public TextField newAddress;
-	public TextField newPhoneNumber;
-	public TextField newCity;
-	public TextField newZipCode;
-	public Text duplicateUsername;
-	public Text emptyField;
-	public Text shortPassword;
-	public Text passwordMatch;
-	public Text zipCodeNumber;
-	public Text zipCodeDigits;
-	public ChoiceBox<String> newState;
+	@FXML private TextField newUsername;
+	@FXML private TextField newPassword;
+	@FXML private TextField newPasswordConfirm;
+	@FXML private TextField newFirstName;
+	@FXML private TextField newLastName;
+	@FXML private TextField newAddress;
+	@FXML private TextField newPhoneNumber;
+	@FXML private TextField newCity;
+	@FXML private TextField newZipCode;
+	@FXML private Text duplicateUsername;
+	@FXML private Text emptyField;
+	@FXML private Text shortPassword;
+	@FXML private Text passwordMatch;
+	@FXML private Text zipCodeNumber;
+	@FXML private Text zipCodeDigits;
+	@FXML private ChoiceBox<String> newState;
 	
-	public Pane logInFields;
+	@FXML private Pane logInFields;
 	
-	
-	private void updateLoginDate(String username, String password) throws SQLException {
-		
-		//Creates a string based on the current date
-		String formatDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY/MM/dd"));
-		
-		st.executeUpdate(
-				"UPDATE USER_INFORMATION "
-				+ ""
-				+ "SET LAST_LOGIN = '" + formatDateTime
-				+ ""
-				+ "' WHERE USERNAME = '" + username
-				+ "' AND PASSWORD = '" + password + "'"
-		);
-		
-	}
 	
 	//alert box for successful database insertion
 	public Stage insertSuccessful() {
@@ -135,7 +121,7 @@ public class LogInScreenController implements Initializable {
 				+ "FROM USER_INFORMATION "
 				+ "WHERE USERNAME = '" + newUsername.getText() + "'";
 		
-		rs = st.executeQuery(userExists);
+		databaseResults = databaseSQLStatement.executeQuery(userExists);
 		
 		//assign values from the text boxes
 		String username = newUsername.getText().toLowerCase();
@@ -178,7 +164,7 @@ public class LogInScreenController implements Initializable {
 			
 		}
 		//checks if username already exists
-		else if(rs.isBeforeFirst()) {
+		else if(databaseResults.isBeforeFirst()) {
 			duplicateUsername.setVisible(true);
 		}
 		//check password length
@@ -192,7 +178,7 @@ public class LogInScreenController implements Initializable {
 		//create new user and insert into database
 		else {
 			
-			String userDBInfo = "INSERT INTO USER_INFORMATION "
+			String userDatabaseInfo = "INSERT INTO USER_INFORMATION "
 					+ "(USERNAME, PASSWORD, "
 					+ "FIRST_NAME, LAST_NAME, "
 					+ "ADDRESS, CITY, STATE, ZIP_CODE, "
@@ -209,7 +195,7 @@ public class LogInScreenController implements Initializable {
 					+ "'" + formatDateTime + "')"
 					+ "";
 			
-			st.executeUpdate(userDBInfo);
+			databaseSQLStatement.executeUpdate(userDatabaseInfo);
 			
 			//create forced alert box
 			Stage window = insertSuccessful();
@@ -259,13 +245,15 @@ public class LogInScreenController implements Initializable {
 		usernameLocked = username.getText().toLowerCase();
 		
 		if(!usernameLocked.isEmpty())
-			rs = verify.TestUsernamePassword( st, usernameLocked, hash.hashString(password.getText()) );
+			databaseResults = verify.TestUsernamePassword(databaseSQLStatement, usernameLocked, hash.hashString(password.getText()) );
 		else
-			rs = null;
+			databaseResults = null;
 		
-		if(rs.isBeforeFirst() && rs != null) {
+		if(databaseResults.isBeforeFirst() && databaseResults != null) {
 			
-			updateLoginDate(usernameLocked, hash.hashString(password.getText()));
+			UpdateLoginDate updateLogin = new UpdateLoginDate();
+			
+			updateLogin.updateDatabaseLogin(usernameLocked, hash.hashString(password.getText()), databaseSQLStatement);
 			
 			//switches scenes depending on if admin is logging in
 			if(!usernameLocked.equals("adminadmin")) {
@@ -277,7 +265,7 @@ public class LogInScreenController implements Initializable {
 				
 				//Sends data to the controller before showing
 				AccountPageController accountController = loader.getController();
-				accountController.setUserInfo(rs, st);//error TODO
+				accountController.setUserInfo(databaseResults, databaseSQLStatement);
 				
 				Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
 				
@@ -293,7 +281,7 @@ public class LogInScreenController implements Initializable {
 										+ ""
 										+ "FROM USER_INFORMATION";
 				
-				ResultSet dBQuery = st.executeQuery(adminDBQuery);
+				ResultSet dBQuery = databaseSQLStatement.executeQuery(adminDBQuery);
 				
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(getClass().getResource("/io/github/Nateacoffey/Admin/AdminPage.fxml"));
@@ -319,7 +307,6 @@ public class LogInScreenController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		
 		try {
 			/* 
 			 * https://stackoverflow.com/questions/21955256/manipulating-an-access-database-from-java-without-odbc
@@ -342,7 +329,7 @@ public class LogInScreenController implements Initializable {
 		//connect to path of database
 		dbConnection = DriverManager.getConnection(
 				"jdbc:ucanaccess://C:/Users/Nathan/git/BankOfCoffey/Bank of Coffey/BankOfCoffeyDatabase.accdb");
-		st = dbConnection.createStatement();
+		databaseSQLStatement = dbConnection.createStatement();
 		
 		
 		//load newState choice box list
@@ -370,6 +357,7 @@ public class LogInScreenController implements Initializable {
 			e.printStackTrace();
 		}
 	
+		
 	}
 		
 	

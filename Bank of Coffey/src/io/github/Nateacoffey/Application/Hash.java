@@ -8,28 +8,29 @@ public class Hash {
 							{33, 4, 2}};
 		String result = "";
 		
+		int length = name.length();
 		
-		if(name.length() % 3 == 1) {
+		if(length % 3 == 1) {
 			name += "..";
-		}else if(name.length() % 3 == 2) {
+		}else if(length % 3 == 2) {
 			name += ".";
 		}
 		
-		int temp = 0;
+		int newCharacterDecimalValue = 0;
 		
-		for(int i = 0; i < name.length(); i += 3) {//skips every 3rd char
+		for(int i = 0; i < length; i += 3) {//skips every 3rd char
 			for(int j = 0; j < 3; j++) {	//rows
 				for(int k = 0; k < 3; k++) {	//columns
-					temp += name.charAt(i) * matrix[k][j]
-							+ name.charAt(i + 1) * matrix[k][j]
-								+ name.charAt(i + 2) * matrix[k][j];
+					newCharacterDecimalValue += name.charAt(i) * matrix[k][j]
+												+ name.charAt(i + 1) * matrix[k][j]
+													+ name.charAt(i + 2) * matrix[k][j];
 				}//end for loop
 				
-				temp = (temp % 93) + 33;
+				newCharacterDecimalValue = (newCharacterDecimalValue % 93) + 33;
 
-				result += (char) temp;
+				result += (char) newCharacterDecimalValue;
 
-				temp = 0;
+				newCharacterDecimalValue = 0;
 			}//end for loop
 		}//end for loop
 		

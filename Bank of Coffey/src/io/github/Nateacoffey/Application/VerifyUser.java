@@ -5,12 +5,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class VerifyUser {
-	ResultSet TestUsernamePassword(Statement st, String username, String password) {
+	ResultSet TestUsernamePassword(Statement databaseSQLStatement, String username, String password) {
+		
 		
 		try {
 			
-			
-			ResultSet rs = st.executeQuery(
+			//returns user information from database matching username and password
+			ResultSet databaseResults = databaseSQLStatement.executeQuery(
 					"SELECT ADDRESS,"
 					+ "USERNAME,"
 					+ "CITY,"
@@ -29,10 +30,9 @@ public class VerifyUser {
 					
 					);
 			
-			return rs;
+			return databaseResults;
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 		

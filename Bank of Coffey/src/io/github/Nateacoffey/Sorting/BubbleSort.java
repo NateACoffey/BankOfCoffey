@@ -34,7 +34,7 @@ public class BubbleSort {
 					case "State":
 						compare = array[j].getState().compareTo(array[j + 1].getState());
 						break;
-					case "Zip Code":
+					default://case Zip Code
 						intWrapI = new Integer(array[j].getZipCode());
 						intWrapJ = new Integer(array[j + 1].getZipCode());
 						

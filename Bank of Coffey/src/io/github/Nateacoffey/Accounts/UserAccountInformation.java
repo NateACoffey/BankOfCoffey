@@ -4,7 +4,8 @@ public class UserAccountInformation implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 4L;
 	
-
+	
+	//created enum type for the types of accounts that can be created
 	private enum AccountType{
 		CHECKING, SAVINGS, INTEREST_BEARING, MONEY_MARKET
 	}
@@ -14,11 +15,11 @@ public class UserAccountInformation implements java.io.Serializable {
 	private int id;
 	
 	
-	UserAccountInformation(String accountType, int id) {
+	UserAccountInformation(String typeValue, int id) {
+		//converts string into enumeration
+		AccountType accountType = AccountType.valueOf(typeValue.toUpperCase());
 		
-		AccountType typeValue = AccountType.valueOf(accountType.toUpperCase());
-		
-		this.accountType = typeValue;
+		this.accountType = accountType;
 		this.id = id;
 		this.balance = 0.0;
 	}

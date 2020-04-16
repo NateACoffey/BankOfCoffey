@@ -8,13 +8,14 @@ public class ArrayListToArray {
 		
 		int size = dbList.size();
 		
-		DatabaseUsersInformation[] dbArray = new DatabaseUsersInformation[dbList.size()];
+		//create array based on the size of the List
+		DatabaseUsersInformation[] databaseArray = new DatabaseUsersInformation[size];
 		
 		for(int i = 0; i < size; i++) {
-			dbArray[i] = dbList.get(i);
+			databaseArray[i] = dbList.get(i);
 		}
 		
 		
-		return dbArray;
+		return databaseArray;
 	}
 }

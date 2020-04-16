@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -30,16 +31,16 @@ import javafx.stage.Stage;
 
 public class AdminPageController implements Initializable {
 	
-	DatabaseUsersInformation users;
+	DatabaseUsersInformation allUserInformation;
 	
-	public ChoiceBox<String> sortType;
-	public ChoiceBox<String> category;
+	@FXML private ChoiceBox<String> sortType;
+	@FXML private ChoiceBox<String> category;
 	
-	public TextArea sortedDatabaseDisplay;
-	public TextField timeDisplay;
+	@FXML private TextArea sortedDatabaseDisplay;
+	@FXML private TextField timeDisplay;
 	
 	private List<DatabaseUsersInformation> databaseInformation = new ArrayList<DatabaseUsersInformation>(50);
-	DatabaseUsersInformation[] unsortingArray;
+	DatabaseUsersInformation[] copiedArray;
 	
 	public void searchSort(ActionEvent e) {
 		
@@ -48,31 +49,31 @@ public class AdminPageController implements Initializable {
 		//convert arraylist to an array before manipulation and timing
 		ArrayListToArray toArray = new ArrayListToArray();
 		
-		unsortingArray = toArray.toArray(databaseInformation);
+		copiedArray = toArray.toArray(databaseInformation);
 		
 		String categoryChoice = category.getValue();
 		String sortTypeChoice = sortType.getValue();
 		
 		
-		if(categoryChoice != null && sortTypeChoice != null) {
+		if(categoryChoice != null && sortTypeChoice != null && databaseInformation.size() > 0) {
 			long startTime = System.nanoTime();
 			
 			switch(sortTypeChoice) {
 				case "Bubble Sort":
 					BubbleSort bubbleSort = new BubbleSort();
-					unsortingArray = bubbleSort.sort(unsortingArray, categoryChoice);
+					copiedArray = bubbleSort.sort(copiedArray, categoryChoice);
 					break;
 				case "Merge Sort":
 					MergeSort mergeSort = new MergeSort();
-					unsortingArray = mergeSort.sort(unsortingArray, categoryChoice);
+					copiedArray = mergeSort.sort(copiedArray, categoryChoice);
 					break;
 				case "Insertion Sort":
 					InsertionSort insertionSort = new InsertionSort();
-					unsortingArray = insertionSort.sort(unsortingArray, categoryChoice);
+					copiedArray = insertionSort.sort(copiedArray, categoryChoice);
 					break;
 				case "Quick Sort":
 					QuickSort quickSort = new QuickSort();
-					unsortingArray = quickSort.sort(unsortingArray, categoryChoice);
+					copiedArray = quickSort.sort(copiedArray, categoryChoice);
 					break;
 				default://no sort
 					break;
@@ -85,14 +86,16 @@ public class AdminPageController implements Initializable {
 			//turn to microseconds
 			long duration = (endTime - startTime) / 1000;
 			
-			int arrayLength = unsortingArray.length;
+			int arrayLength = copiedArray.length;
 			
 			for(int i = 0; i < arrayLength; i++) {
-				sortedDatabaseDisplay.setText(sortedDatabaseDisplay.getText() + unsortingArray[i].toString());
+				sortedDatabaseDisplay.setText(sortedDatabaseDisplay.getText() + copiedArray[i].toString());
 			}
 			
 			timeDisplay.setText("Time elapsed: " + duration + "μs");
 			
+		} else if(databaseInformation.size() < 1) {
+			sortedDatabaseDisplay.setText("Database is empty. Please create new accounts.");
 		} else {
 			sortedDatabaseDisplay.setText("Please select a category and sort type");
 		}
@@ -104,13 +107,13 @@ public class AdminPageController implements Initializable {
 		rs.next();
 		
 		while(rs.next()) {
-			users = new DatabaseUsersInformation(rs.getInt("AMOUNT_OF_ACCOUNTS"),
+			allUserInformation = new DatabaseUsersInformation(rs.getInt("AMOUNT_OF_ACCOUNTS"),
 												rs.getString("FIRST_NAME"),
 												rs.getString("LAST_LOGIN"),
 												rs.getString("STATE"),
 												rs.getInt("ZIP_CODE") );
 			
-			databaseInformation.add(users);
+			databaseInformation.add(allUserInformation);
 		}
 		
 	}
@@ -124,8 +127,9 @@ public class AdminPageController implements Initializable {
 		
 		Stage window = (Stage)((Node)e.getSource()).getScene().getWindow();
 		
-		databaseInformation = null;//empties user data before switching scenes
-		unsortingArray = null;
+		//empties user data before switching scenes
+		databaseInformation = null;
+		copiedArray = null;
 		
 		window.setScene(accountPageScene);
 		window.show();
@@ -134,7 +138,8 @@ public class AdminPageController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-			//sorting types
+		
+		//sorting types
 		ObservableList<String> sortList = FXCollections.observableArrayList();
 		
 		sortList.removeAll(sortList);
@@ -149,7 +154,7 @@ public class AdminPageController implements Initializable {
 		sortType.getItems().addAll(sortList);
 		
 		
-			//columns to sort by
+		//columns to sort by
 		ObservableList<String> columnList = FXCollections.observableArrayList();
 		
 		columnList.removeAll(columnList);

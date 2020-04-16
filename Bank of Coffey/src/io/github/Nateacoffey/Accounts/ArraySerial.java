@@ -15,21 +15,23 @@ public class ArraySerial {
 	
 	
 	
-	public void serial(String username, Statement st) {
+	public void serial(String username, Statement databaseSQLStatement) {
 		try {
 			//converts Array to byte[] stream
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutput out = new ObjectOutputStream(bos);
-			out.writeObject(UserInformation.ArrayOfAccounts);
-			byte[] byteArray = bos.toByteArray();
+			ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
+			//do not delete
+			ObjectOutput objectOut = new ObjectOutputStream(byteArrayOutput);
+			objectOut.writeObject(UserInformation.arrayOfAccounts);
 			
-			String test = Base64.getEncoder().encodeToString(byteArray);
+			byte[] byteArray = byteArrayOutput.toByteArray();
+			
+			String serializedObject = Base64.getEncoder().encodeToString(byteArray);
 			
 			//updates the array for user
-			st.executeUpdate(
+			databaseSQLStatement.executeUpdate(
 					"UPDATE USER_INFORMATION "
 					+ ""
-					+ "SET ACCOUNT_SERIAL = '" + test
+					+ "SET ACCOUNT_SERIAL = '" + serializedObject
 					+ ""
 					+ "' WHERE USERNAME = '" + username
 					+ "'"
@@ -53,11 +55,11 @@ public class ArraySerial {
 		try {
 			byte[] byteArray = Base64.getDecoder().decode(serial);
 			
+			//converts the byte array back into the Object array
+			ByteArrayInputStream byteArrayInput = new ByteArrayInputStream(byteArray);
+			ObjectInput objectIn = new ObjectInputStream(byteArrayInput);
 			
-			ByteArrayInputStream bis = new ByteArrayInputStream(byteArray);
-			ObjectInput in = new ObjectInputStream(bis);
-			
-			arrayOfAccounts = (UserAccountInformation[]) in.readObject();
+			arrayOfAccounts = (UserAccountInformation[]) objectIn.readObject();
 			
 			
 			return arrayOfAccounts;
