@@ -129,6 +129,27 @@ public class AccountPageController implements Initializable {
 	}
 	
 	
+	private void changeAmountOfAccounts(int accountNumber) throws SQLException {
+		
+		//increment/decrement current amount of accounts 
+		userProfileInformation.setAmountOfAccounts(userProfileInformation.getAmountOfAccounts() + accountNumber);
+		
+		int amountOfAccounts = userProfileInformation.getAmountOfAccounts();
+		String username = userProfileInformation.getUsername();
+		
+		//update the database
+		databaseSQLStatement.executeUpdate(
+				"UPDATE USER_INFORMATION "
+				+ ""
+				+ "SET AMOUNT_OF_ACCOUNTS = " + amountOfAccounts
+				+ ""
+				+ " WHERE USERNAME = '" + username
+				+ "'"
+		);
+		
+	}
+	
+	
 	public void withdrawFunds(ActionEvent e) {
 		emptyChoice.setVisible(false);
 		notANumber.setVisible(false);
@@ -272,7 +293,7 @@ public class AccountPageController implements Initializable {
 		
 	}
 	
-	public void addAccount(ActionEvent e) {
+	public void addAccount(ActionEvent e) throws SQLException {
 		emptyChoice.setVisible(false);
 		notANumber.setVisible(false);
 		accountNotFound.setVisible(false);
@@ -290,6 +311,8 @@ public class AccountPageController implements Initializable {
 			
 			addAccountList.setValue(null);
 			
+			changeAmountOfAccounts(1);
+			
 			//refreshes the table with new values and serializes the array to the database
 			fillTable();
 			serialAccount();
@@ -302,7 +325,7 @@ public class AccountPageController implements Initializable {
 		
 	}
 	
-	public void deleteAccount(ActionEvent e) {
+	public void deleteAccount(ActionEvent e) throws SQLException {
 		emptyChoice.setVisible(false);
 		notANumber.setVisible(false);
 		accountNotFound.setVisible(false);
@@ -319,6 +342,8 @@ public class AccountPageController implements Initializable {
 		if(deleteAccount.DeleteFromArray(deleteAccountList.getValue())) {
 			
 			deleteAccountList.setValue(null);
+			
+			changeAmountOfAccounts(-1);
 			
 			//refreshes the table with new values and serializes the array to the database
 			fillTable();

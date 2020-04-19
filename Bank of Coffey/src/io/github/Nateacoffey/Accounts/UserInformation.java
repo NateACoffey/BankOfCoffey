@@ -20,7 +20,7 @@ public class UserInformation {
 	
 	private String phoneNumber = "";
 	
-	private static int amountOfAccounts = 0;
+	private int amountOfAccounts = 0;
 	
 	private LocalDate lastLogin;//admin purposes only
 	
@@ -35,7 +35,7 @@ public class UserInformation {
 								 int zipCode,
 								  String phoneNumber,
 								   String accountSerial,
-								    int amountOfAccount
+								    int amountOfAccounts
 							) {
 		
 		this.username = username;
@@ -46,11 +46,16 @@ public class UserInformation {
 		this.state = state;
 		this.zipCode = zipCode;
 		this.phoneNumber = phoneNumber.replaceAll("[^\\d]", "");
+		this.amountOfAccounts = amountOfAccounts;
 		
 		ArraySerial serial = new ArraySerial();
 		UserInformation.arrayOfAccounts = serial.deserial(accountSerial);
 	}
 	
+	
+	public void setAmountOfAccounts(int amountOfAccounts) {
+		this.amountOfAccounts = amountOfAccounts;
+	}
 	
 	public String getUsername() {
 		return username;
